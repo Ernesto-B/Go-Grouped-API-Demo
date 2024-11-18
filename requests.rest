@@ -1,0 +1,17 @@
+GET http://localhost:3000/albums
+
+###
+
+POST http://localhost:3000/albums
+Content-Type: application/json
+
+{
+    "ID": "6",
+    "Title": "Jose",
+    "Artist": "Jose Sandwich",
+    "Price": 90.22
+}
+
+###
+
+GET http://localhost:3000/albums/2
