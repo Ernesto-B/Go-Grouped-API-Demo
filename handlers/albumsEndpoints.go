@@ -12,8 +12,10 @@ func GetAlbums(c *gin.Context) {
 func PostAlbum(c *gin.Context) {
 	var newAlbum album
 	err := c.BindJSON(&newAlbum) ; if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
+	albums = append(albums, newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
 
