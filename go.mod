@@ -1,4 +1,4 @@
-module Go-gRPC-Server-Demo
+module go-server-demo
 
 go 1.23.2
 
