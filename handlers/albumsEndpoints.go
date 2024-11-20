@@ -1,13 +1,37 @@
 package handlers
 
 import (
-	"net/http"
-	"github.com/gin-gonic/gin"
 	models "go-server-demo/models"
+	"net/http"
+	"sort"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetAlbums(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, models.Albums)
+	// Make a copy so we dont modify the original models.Albums
+	albumsCopy := make([]models.Album, len(models.Albums))
+	copy(albumsCopy, models.Albums)
+
+	sortby := c.Query("sort")
+
+	switch sortby {
+	case "title":
+		sort.Slice(albumsCopy, func(i, j int) bool {
+			return albumsCopy[i].Title < albumsCopy[j].Title
+		})
+	case "artist":
+		sort.Slice(albumsCopy, func(i, j int) bool {
+			return albumsCopy[i].Artist < albumsCopy[j].Artist
+		})
+	case "price":
+		sort.Slice(albumsCopy, func(i, j int) bool {
+			return albumsCopy[i].Price < albumsCopy[j].Price
+		})
+	default:
+	}
+
+	c.IndentedJSON(http.StatusOK, albumsCopy)
 }
 
 func PostAlbum(c *gin.Context) {
